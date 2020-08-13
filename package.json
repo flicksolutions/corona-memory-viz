@@ -12,13 +12,13 @@
     "rollup": "^2.23.0",
     "rollup-plugin-livereload": "^1.0.0",
     "rollup-plugin-svelte": "^5.0.3",
-    "rollup-plugin-terser": "^5.1.2",
-    "svelte": "^3.0.0"
+    "rollup-plugin-terser": "^7.0.0",
+    "serialize-javascript": ">=3.1.0",
+    "svelte": "^3.24.1"
   },
   "dependencies": {
     "anychart": "^8.8.0",
     "sirv-cli": "^0.4.4",
     "svelte-frappe-charts": "^1.2.0"
-    "serialize-javascript": ">=3.1.0"
   }
 }
