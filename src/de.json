@@ -1,0 +1,12 @@
+{
+  "Contributions": "Gesamtbeiträge",
+  "Contributions total":"Beiträge Gesamt",
+  "Contributions daily": "Beiträge Täglich",
+  "Text Sub-graph": "Dieser Graph zeigt den Anstieg der Beiträge auf corona-memory.ch im zeitlichen Verlauf.",
+  "Contributions sorted by langs": "Beiträge nach Sprachen",
+  "Contributions sorted by lang": "Beiträge nach Sprache",
+  "Languagedistribution": "Sprachverteilung in der Schweiz",
+  "Text Sub-cake": "Das Diagramm zeigt, in welcher Sprache die Beiträge verfasst sind. Zum Vergleich zeigt das zweite Diagramm die Zahl der Sprecherinnen und Sprecher der jeweiligen Sprachen in der Schweiz. (Quelle: Bundesamt für Statistik, 2018)",
+  "Wordcloud": "Wörterwolke",
+  "Text Sub-wordcloud": "Diese Darstellung zeigt die meistbenutzten Wörter in den Beiträgen."
+}

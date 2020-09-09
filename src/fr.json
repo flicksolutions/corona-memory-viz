@@ -1,0 +1,12 @@
+{
+  "Contributions": "Vue d’ensemble des contributions",
+  "Contributions total":"contributions total",
+  "Contributions daily": "contributions par jour",
+  "Text Sub-graph": "Ce graphique montre l’évolution des contributions sur corona-memory.ch au cours du temps.",
+  "Contributions sorted by langs": "Langues des contributions",
+  "Contributions sorted by lang": "Langues des contributions",
+  "Languagedistribution": "Répartition des langues en Suisse",
+  "Text Sub-cake": "Le premier diagramme montre le nombre de contributions par langue. En comparaison, le deuxième diagramme montre le nombre de locuteurs·trices pour les différentes langues nationales en Suisse (Source: Office fédéral de la statistique 2018)",
+  "Wordcloud": "Nuage de mots",
+  "Text Sub-wordcloud": "Ce graphique montre les mots les plus souvent utilisés dans les contributions."
+}

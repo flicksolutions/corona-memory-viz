@@ -3,6 +3,19 @@
 	import { onMount } from 'svelte';
 	import 'anychart';
 	import 'https://cdn.anychart.com/releases/8.7.1/js/anychart-tag-cloud.min.js';
+	import { addMessages, init, getLocaleFromNavigator, _ } from 'svelte-i18n';
+	import de from './de.json';
+	import fr from './fr.json';
+	import it from './it.json';
+
+	addMessages('de', de);
+	addMessages('fr', fr);
+	addMessages('it', it);
+
+	init({
+		fallbackLocale: 'de',
+		initialLocale: getLocaleFromNavigator(),
+	})
 
 	let chart = (async () => {
 		let res = await fetch(`https://www.corona-memory.ch/api/items?per_page=999999&item_set_id=796`);
@@ -28,12 +41,12 @@
 			labels: xAxis.map(d => d.toLocaleDateString()),
 			datasets: [
 				{
-					name: "Beiträge Gesamt",
+					name: $_('Contributions total'),
 					values: yAxis,
 					chartType: 'line'
 				},
 				{
-					name: "Beiträge Täglich",
+					name: $_('Contributions daily'),
 					values: yBar,
 					chartType: 'bar'
 				},
@@ -535,17 +548,17 @@
 	{#await chart}
 		<p>...waiting</p>
 	{:then data}
-		<h2>Gesamtbeiträge</h2>
+		<h2>{$_('Contributions')}</h2>
 		<Chart data={graphVal(data, "o:created")} axisOptions={{xIsSeries:true}} type='axis-mixed' />
-		<p>Dieser Graph zeigt den Anstieg der Beiträge auf corona-memory.ch im zeitlichen Verlauf.</p>
-		<h2>Beiträge nach Sprachen</h2>
+		<p>{$_('Text Sub-graph')}</p>
+		<h2>{$_('Contributions sorted by langs')}</h2>
 	<div class="grid">
 		<div>
-			<h3>Beiträge nach Sprache</h3>
+			<h3>{$_('Contributions sorted by lang')}</h3>
 			<Chart data={pieVal(data, "dcterms:language")} type="pie" />
 		</div>
 		<div>
-			<h3>Sprachverteilung in der Schweiz</h3>
+			<h3>{$_('Languagedistribution')}</h3>
 			<Chart data={{
 				labels: ['de','fr','it'],
 				datasets: [
@@ -557,13 +570,13 @@
 			}} type="pie" />
 		</div>
 	</div>
-		<p>Das Diagramm zeigt, in welcher Sprache die Beiträge verfasst sind. Zum Vergleich zeigt das zweite Diagramm die Zahl der Sprecherinnen und Sprecher der jeweiligen Sprachen in der Schweiz. (Quelle: Bundesamt für Statistik, 2018)</p>
+		<p>{$_('Text Sub-cake')}</p>
 	{:catch error}
 		<p style="color: red">{error.message}</p>
 	{/await}
-	<h2>Wörterwolke</h2>
+	<h2>{$_('Wordcloud')}</h2>
 	<div id="container"></div>
-	<p>Diese Darstellung zeigt die meistbenutzten Wörter in den Beiträgen.</p>
+	<p>{$_('Text Sub-wordcloud')}</p>
 </main>
 
 <style>
