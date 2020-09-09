@@ -3,7 +3,7 @@
 	import { onMount } from 'svelte';
 	import 'anychart';
 	import 'https://cdn.anychart.com/releases/8.7.1/js/anychart-tag-cloud.min.js';
-	import { addMessages, init, getLocaleFromNavigator, _ } from 'svelte-i18n';
+	import { addMessages, init, getLocaleFromPathname, _ } from 'svelte-i18n';
 	import de from './de.json';
 	import fr from './fr.json';
 	import it from './it.json';
@@ -14,7 +14,7 @@
 
 	init({
 		fallbackLocale: 'de',
-		initialLocale: getLocaleFromNavigator(),
+		initialLocale: getLocaleFromPathname(/corona-memory-(.*?)\//), //this can only be checked once it's embedded in the site
 	})
 
 	let chart = (async () => {
