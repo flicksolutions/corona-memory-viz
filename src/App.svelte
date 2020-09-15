@@ -1,9 +1,5 @@
-<script>
-	import Chart from 'svelte-frappe-charts';
-	import { onMount } from 'svelte';
-	import 'anychart';
-	import 'https://cdn.anychart.com/releases/8.7.1/js/anychart-tag-cloud.min.js';
-	import { addMessages, init, getLocaleFromPathname, _ } from 'svelte-i18n';
+<script context="module">
+	import { addMessages, init, getLocaleFromPathname } from 'svelte-i18n';
 	import de from './de.json';
 	import fr from './fr.json';
 	import it from './it.json';
@@ -16,6 +12,15 @@
 		fallbackLocale: 'de',
 		initialLocale: getLocaleFromPathname(/corona-memory-(.*?)\//), //this can only be checked once it's embedded in the site
 	})
+
+</script>
+
+<script>
+	import Chart from 'svelte-frappe-charts';
+	import { onMount } from 'svelte';
+	import 'anychart';
+	import 'https://cdn.anychart.com/releases/8.7.1/js/anychart-tag-cloud.min.js';
+	import { _ } from 'svelte-i18n';
 
 	let chart = (async () => {
 		let res = await fetch(`https://www.corona-memory.ch/api/items?per_page=999999&item_set_id=796`);
