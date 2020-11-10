@@ -17,7 +17,6 @@
 
 <script>
 	import Chart from 'svelte-frappe-charts';
-	import { onMount } from 'svelte';
 	import 'anychart';
 	import 'https://cdn.anychart.com/releases/8.7.1/js/anychart-tag-cloud.min.js';
 	import { _ } from 'svelte-i18n';
@@ -31,17 +30,21 @@
 
 	let graphVal = (chart, field) => {
 		chart = chart.filter(i => i[field]); //check that field is set
-		let dates = chart.map((i) => new Date(i[field]["@value"]));
+		let dates = chart.map((i) => {
+		    	try {
+					return new Date(i[field]["@value"])
+				} catch (e) {
+					console.log(e)
+				}
+		});
 		dates = dates.filter(i => i instanceof Date && !isNaN(i)); //filter for true dates
 		const minDate = new Date(Math.min.apply(null,dates)); //get the earliest date in the array
 		let xAxis = [];
 		for (let d=minDate.getTime(); d < Date.now();d += (60 * 60 * 24 * 1000) ){ //create a field for every day from min to now
 			xAxis.push(new Date(d));
 		}
-		const yAxis = xAxis.map((x) => dates.filter((d) => d.getTime() <= x.getTime()).length); //get a value for every day.
+		const yAxis = xAxis.map(x => dates.filter(d => d.getTime() <= x.getTime()).length); //get a value for every day.
 		const yBar = xAxis.map(x => dates.filter(d => d.getDate() === x.getDate() && d.getMonth() === x.getMonth()).length);
-		console.log(dates[33].getDay());
-		console.log(yBar);
 		return {
 			labels: xAxis.map(d => d.toLocaleDateString()),
 			datasets: [
@@ -62,17 +65,29 @@
 	let pieVal = (chart, field) => {
 		const xAxis = [];
 		chart.forEach(i => {
-			if (!xAxis.includes(i[field][0]["@value"])) {
-				xAxis.push(i[field][0]["@value"]);
+			try {
+				if (!xAxis.includes(i[field][0]["@value"])) {
+					xAxis.push(i[field][0]["@value"]);
+				}
+			} catch (err) {
+				console.log("item does not include language!")
+				console.log(i)
 			}
 		});
 		const yAxis = xAxis.map(lang => {
 			let count = 0;
-			chart.forEach(i => {
-				if (i[field][0]["@value"] === lang) {
-					count++
-				}
-			});
+
+				chart.forEach(i => {
+					try {
+						if (i[field][0]["@value"] === lang) {
+							count++
+						}
+					} catch (err) {
+						console.log("item does not include language!")
+						console.log(i)
+					}
+				});
+
 			return count;
 		})
 		return {
