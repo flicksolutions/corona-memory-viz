@@ -569,7 +569,7 @@
 		<p>...waiting</p>
 	{:then data}
 		<h2>{$_('Contributions')}</h2>
-		<Chart data={graphVal(data, "o:created")} axisOptions={{xIsSeries:true}} type='axis-mixed' />
+		<Chart data={graphVal(data, "o:created")} axisOptions={{xIsSeries:true, xAxisMode:'tick'}} lineOptions={{hideDots: 1}} type='axis-mixed' />
 		<p>{$_('Text Sub-graph')}</p>
 		<h2>{$_('Contributions sorted by langs')}</h2>
 	<div class="grid">
