@@ -16,10 +16,12 @@
 </script>
 
 <script>
-	import Chart from 'svelte-frappe-charts';
 	import 'anychart';
 	import 'https://cdn.anychart.com/releases/8.7.1/js/anychart-tag-cloud.min.js';
 	import { _ } from 'svelte-i18n';
+	import Doughnut from './Doughnut.svelte';
+	import * as d3ScaleChrom from 'd3-scale-chromatic';
+	import * as d3Scale from 'd3-scale';
 
 	let chart = (async () => {
 		let res = await fetch(`https://www.corona-memory.ch/api/items?per_page=999999&item_set_id=796`);
@@ -63,6 +65,7 @@
 	};
 
 	let pieVal = (chart, field) => {
+		const color = d3Scale.scaleOrdinal(d3ScaleChrom.schemeCategory10);
 		const xAxis = [];
 		chart.forEach(i => {
 			try {
@@ -74,9 +77,19 @@
 				console.log(i)
 			}
 		});
-		const yAxis = xAxis.map(lang => {
-			let count = 0;
+		let colors = []
 
+		function modulo(index) {
+			if (index > 9) {
+				modulo(index % 10)
+			} else {
+				return index;
+			}
+		}
+
+		const yAxis = xAxis.map((lang, index) => {
+			let count = 0;
+			const colorI = modulo(index);
 				chart.forEach(i => {
 					try {
 						if (i[field][0]["@value"] === lang) {
@@ -88,14 +101,16 @@
 					}
 				});
 
+			colors.push(d3ScaleChrom.schemeCategory10[colorI]);
 			return count;
 		})
 		return {
 			labels: xAxis,
 			datasets: [
 				{
-					name: "Beiträge",
-					values: yAxis
+					label: "Beiträge",
+					data: yAxis,
+					backgroundColor: colors
 				}
 			]
 		};
@@ -569,17 +584,28 @@
 		<p>...waiting</p>
 	{:then data}
 		<h2>{$_('Contributions')}</h2>
-		<Chart data={graphVal(data, "o:created")} axisOptions={{xIsSeries:true, xAxisMode:'tick'}} lineOptions={{hideDots: 1}} type='axis-mixed' />
+		<!--<Chart data={graphVal(data, "o:created")} axisOptions={{xIsSeries:true, xAxisMode:'tick'}} lineOptions={{hideDots: 1}} type='axis-mixed' />-->
 		<p>{$_('Text Sub-graph')}</p>
 		<h2>{$_('Contributions sorted by langs')}</h2>
 	<div class="grid">
 		<div>
 			<h3>{$_('Contributions sorted by lang')}</h3>
-			<Chart data={pieVal(data, "dcterms:language")} type="pie" />
+			<Doughnut id="donut-lang" datasets={pieVal(data, "dcterms:language")} />
+			<!--<Chart data={pieVal(data, "dcterms:language")} type="pie" />-->
 		</div>
 		<div>
 			<h3>{$_('Languagedistribution')}</h3>
-			<Chart data={{
+			<Doughnut id="donut-speakers" datasets={{
+			labels: ['de','fr','it'],
+			datasets: [
+				{
+					label: "Sprecher",
+					data: [4458156, 1619708, 593646],
+					backgroundColor: d3ScaleChrom.schemeCategory10.slice(3)
+				}
+			]
+		}} />
+			<!--<Chart data={{
 				labels: ['de','fr','it'],
 				datasets: [
 					{
@@ -587,7 +613,7 @@
 						values: [4458156, 1619708, 593646]
 					}
 				]
-			}} type="pie" />
+			}} type="pie" />-->
 		</div>
 	</div>
 		<p>{$_('Text Sub-cake')}</p>
