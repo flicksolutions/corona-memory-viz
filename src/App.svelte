@@ -20,6 +20,7 @@
 	import 'https://cdn.anychart.com/releases/8.7.1/js/anychart-tag-cloud.min.js';
 	import { _ } from 'svelte-i18n';
 	import Doughnut from './Doughnut.svelte';
+	import Lines from './Lines.svelte';
 	import * as d3ScaleChrom from 'd3-scale-chromatic';
 	import * as d3Scale from 'd3-scale';
 
@@ -48,17 +49,24 @@
 		const yAxis = xAxis.map(x => dates.filter(d => d.getTime() <= x.getTime()).length); //get a value for every day.
 		const yBar = xAxis.map(x => dates.filter(d => d.getDate() === x.getDate() && d.getMonth() === x.getMonth()).length);
 		return {
-			labels: xAxis.map(d => d.toLocaleDateString()),
+			type: 'line',
+			//labels: xAxis.map(d => d.toLocaleDateString()),
+			labels: xAxis,
+			//time: {unit: 'day'},
 			datasets: [
 				{
-					name: $_('Contributions total'),
-					values: yAxis,
-					chartType: 'line'
+					label: $_('Contributions total'),
+					data: yAxis,
+					type: 'line',
+					yAxisID: 'first',
+					backgroundColor: 'rgba(90, 48, 141,0.7)'
 				},
 				{
-					name: $_('Contributions daily'),
-					values: yBar,
-					chartType: 'bar'
+					label: $_('Contributions daily'),
+					data: yBar,
+					type: 'bar',
+					yAxisID: 'second',
+					backgroundColor: '#FF00AC'
 				},
 			]
 		};
@@ -585,6 +593,43 @@
 	{:then data}
 		<h2>{$_('Contributions')}</h2>
 		<!--<Chart data={graphVal(data, "o:created")} axisOptions={{xIsSeries:true, xAxisMode:'tick'}} lineOptions={{hideDots: 1}} type='axis-mixed' />-->
+		<Lines id="linechart" data={graphVal(data, "o:created")} options={
+			{
+				tooltips: {
+					intersect: false,
+					mode: 'index',
+					position: 'nearest'
+				},
+                scales: {
+                    xAxes: [{
+                        type: 'time',
+                        time: {
+                        	unit: 'month',
+                        	displayFormats: {
+                        		month: 'MM.YYYY'
+                        	},
+                        	tooltipFormat: 'DD.MM.YYYY'
+                        }
+                    }],
+                    yAxes: [{
+                    	scaleLabel: {
+                    		labelString: $_('Contributions total'),
+                    		display: true
+                    	},
+                        type: 'linear',
+                        id: 'first'
+
+                    },{
+                    	scaleLabel: {
+                    		labelString: $_('Contributions daily'),
+                    		display: true
+                    	},
+                        type: 'linear',
+                        id: 'second'
+                    }]
+                }
+            }
+		}/>
 		<p>{$_('Text Sub-graph')}</p>
 		<h2>{$_('Contributions sorted by langs')}</h2>
 	<div class="grid">
