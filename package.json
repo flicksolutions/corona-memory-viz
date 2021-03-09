@@ -24,7 +24,6 @@
   },
   "dependencies": {
     "anychart": "^8.9.0",
-    "svelte-frappe-charts": "^1.3.0",
     "svelte-i18n": "^3.2.5"
   }
 }

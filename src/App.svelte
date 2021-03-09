@@ -50,9 +50,7 @@
 		const yBar = xAxis.map(x => dates.filter(d => d.getDate() === x.getDate() && d.getMonth() === x.getMonth()).length);
 		return {
 			type: 'line',
-			//labels: xAxis.map(d => d.toLocaleDateString()),
 			labels: xAxis,
-			//time: {unit: 'day'},
 			datasets: [
 				{
 					label: $_('Contributions total'),
@@ -592,7 +590,6 @@
 		<p>...waiting</p>
 	{:then data}
 		<h2>{$_('Contributions')}</h2>
-		<!--<Chart data={graphVal(data, "o:created")} axisOptions={{xIsSeries:true, xAxisMode:'tick'}} lineOptions={{hideDots: 1}} type='axis-mixed' />-->
 		<Lines id="linechart" data={graphVal(data, "o:created")} options={
 			{
 				tooltips: {
@@ -650,15 +647,6 @@
 				}
 			]
 		}} />
-			<!--<Chart data={{
-				labels: ['de','fr','it'],
-				datasets: [
-					{
-						name: "Sprecher",
-						values: [4458156, 1619708, 593646]
-					}
-				]
-			}} type="pie" />-->
 		</div>
 	</div>
 		<p>{$_('Text Sub-cake')}</p>
