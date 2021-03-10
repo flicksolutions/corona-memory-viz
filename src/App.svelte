@@ -21,8 +21,6 @@
 	import { _ } from 'svelte-i18n';
 	import Doughnut from './Doughnut.svelte';
 	import Lines from './Lines.svelte';
-	import * as d3ScaleChrom from 'd3-scale-chromatic';
-	import * as d3Scale from 'd3-scale';
 
 	let chart = (async () => {
 		let res = await fetch(`https://www.corona-memory.ch/api/items?per_page=999999&item_set_id=796`);
@@ -71,7 +69,6 @@
 	};
 
 	let pieVal = (chart, field) => {
-		const color = d3Scale.scaleOrdinal(d3ScaleChrom.schemeCategory10);
 		const xAxis = [];
 		chart.forEach(i => {
 			try {
@@ -83,7 +80,6 @@
 				console.log(i)
 			}
 		});
-		let colors = []
 
 		function modulo(index) {
 			if (index > 9) {
@@ -106,8 +102,6 @@
 						console.log(i)
 					}
 				});
-
-			colors.push(d3ScaleChrom.schemeCategory10[colorI]);
 			return count;
 		})
 		return {
@@ -116,7 +110,8 @@
 				{
 					label: "Beiträge",
 					data: yAxis,
-					backgroundColor: colors
+					//backgroundColor: colors
+					backgroundColor: ['rgba(90, 48, 141, 0.9)','rgba(255, 0, 172, 0.9)','rgba(158, 197, 76, 0.9)']
 				}
 			]
 		};
@@ -643,7 +638,7 @@
 				{
 					label: "Sprecher",
 					data: [4458156, 1619708, 593646],
-					backgroundColor: d3ScaleChrom.schemeCategory10.slice(3)
+					backgroundColor: ['rgba(90, 48, 141, 0.9)','rgba(255, 0, 172, 0.9)','rgba(158, 197, 76, 0.9)']
 				}
 			]
 		}} />
