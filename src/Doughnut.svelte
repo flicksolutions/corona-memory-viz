@@ -21,4 +21,4 @@
     })
 </script>
 
-<canvas id="{id}" width="5" height="1" aria-label="Donut-Chart"></canvas>
+<canvas id="{id}" width="3" height="1" aria-label="Donut-Chart"></canvas>
